@@ -1,18 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced jQuery</title>
     <link rel="stylesheet" href="jquery-ui.css">
     <link rel="stylesheet" href="jquery-ui.min.css">
+    <style>
+        body {
+            color: #dbdfe7;
+            background-color: #161618;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            color: #a01d22;
+            margin-top: 2em;
+        }
+
+        .container {
+            max-width: 800px;
+            position: relative;
+            overflow: hidden;
+            margin: auto;
+            border: 1px solid rgb(219, 223, 231, 0.3);
+            box-shadow: 0 0 10px rgb(219, 223, 231, 0.4);
+            border-radius: 30px;
+            margin-top: 5em;
+        }
+
+        #accordion {
+            margin: 3em;
+        }
+
+        #form {
+            margin: 3em;
+            display: grid;
+        }
+
+        input,
+        select,
+        button {
+            margin-bottom: 2em;
+            padding: 5px;
+        }
+
+        #message {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #161618;
+            height: 0%;
+
+        }
+        img {
+            width: 600px;
+            display: none;
+        }
+    </style>
 </head>
+
 <body>
+    <h1>Appointment Inquiry</h1>
+    <div class="container">
+        <div id="accordion">
+            <h3>How to book an appointment</h3>
+            <div>
+                <p>Complete the form below and submit your inquiry. After I've recieved your submission I will reach out
+                    to schedule your appointment. Keep an eye out for an email from me!</p>
+            </div>
+            <h3>FAQ</h3>
+            <div>
+                <h4>When can I expect a response?</h4>
+                <p>I respond to inquiries weekly. If it has been more than a week without a response, please fill out
+                    another form or email me directly.</p>
+                <h4>Does filling out the form guarantee my appointment?</h4>
+                <p>This inquiry is to gather availability and contact. I will reach out to discuss further details with you. Your appointment is not booked until I have recieved a deposit.</p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Inquiry Form</h1>
+        <form id="form" action="#">
+            <label for="name"><a title="Enter your preffered name">Name</a></label>
+            <input type="text" id="name" name="name">
+            <label for="pronouns"><a title="Enter your preffered pronouns">Pronouns</a></label>
+            <input type="text" id="pronouns" name="pronouns">
+            <label for="email"><a title="Enter a valid email address">Email</a></label>
+            <input type="email" id="email" name="email">
+            <label for="datepicker">Preffered Date</label>
+            <input type="text" id="datepicker" name="datepicker">
+            <label for="time">Preffered Time</label>
+            <select name="time" id="time">
+                <option value="morning">Morning 10am - 12pm</option>
+                <option value="afternoon">Afternoon 1pm - 3pm</option>
+                <option value="evening">Evening 3pm - 5pm</option>
+            </select>
+            <button type="button">Submit</button>
+            <div id="message">
+                <img src="images/tripleluxx-logos-02.png" alt="tripleluxx logo">
+            </div>
+        </form>
+    </div>
 
 
+    <script src="external/jquery/jquery.js"></script>
+    <script src="jquery-ui.js"></script>
 
-<script src="external/jquery/jquery.js"></script>
-<script src="jquery-ui.js"></script>
+    <script>
+        //accordian
+        $("#accordion").accordion({
+            collapsible: true,
+            active: false,
+            heightStyle: "content"
+        });
+        //datepicker
+        $("#datepicker").datepicker({
+            dateFormat: "mm/dd/yy",
+            showButtonPanel: true,
+            changeMonth: true,
+            onSelect: function (dateText, inst) {
+                console.log("Date selected:", dateText);
+            }
+        });
+        $("#datepicker").datepicker('option', {
+            minDate: new Date(2025, 2, 8),
+            maxDate: new Date(2025, 4, 31)
+        });
+        $("#datepicker").datepicker("option", "beforeShowDay", function (date) {
+            let day = date.getDay();
+            return [(day != 1 && day != 2 && day != 3), ""];
+        });
+        //tooltip
+        $("[title]").tooltip({
+            position: {
+                my: "left top",
+                at: "right top"
+            },
+        });
+        //animation
+        $("button").click(function () {
+            $("#message").animate({
+                height: '500px',
+                width: '700px'
+            }, 1500, "easeOutBounce");
+             $("img").show()
+        });
+    </script>
 
 </body>
+
 </html>
